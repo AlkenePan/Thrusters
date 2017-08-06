@@ -1,0 +1,10 @@
+[package]
+name = "libpnet_test"
+version = "0.1.0"
+authors = ["Gaba <gaba@freebuf.com>"]
+
+[dependencies]
+hexdump = "0.1.0"
+[dependencies.pnet]
+version = "0.18.0"
+
