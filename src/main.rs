@@ -45,7 +45,10 @@ fn main() {
 
     // IP 重组所需的 HashMap
     let mut ip_defrag_hash_map: HashMap<u64, VecDeque<internet_handler::internet_handler::IpInfo>> = HashMap::new();
-
+    // TCP stream 重组所需的 HashMap
+    let mut tcp_reassemble_hash_map: HashMap<u64, transport_handler::tcp::tcp_stream> = HashMap::new();
+    // TCP flow 重组所需的 HashMap
+    let mut tcp_flow_hash_map: HashMap<u64, transport_handler::tcp::tcp_flow> = HashMap::new();
     loop {
         match iter.next() {
             // 捕获数据
@@ -65,7 +68,12 @@ fn main() {
                             println!("error ip");
                         } else {
                             // transport
-                            transport_handler::handle_transport_protocol(&interface.name[..], ip_packet.src_ip, ip_packet.dst_ip, ip_packet.next_layer_proto_type, &ip_packet.payload)
+                            transport_handler::handle_transport_protocol(&interface.name[..],
+                                                                         ip_packet.src_ip,
+                                                                         ip_packet.dst_ip,
+                                                                         ip_packet.next_layer_proto_type,
+                                                                         &ip_packet.payload,
+                                                                         &mut tcp_reassemble_hash_map);//HashMap<u64, transport_handler::tcp::tcp_stream>
                         }
                     }
                     _ => {
